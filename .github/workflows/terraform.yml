@@ -10,12 +10,7 @@ permissions:
 jobs:
   plan:
     name: Terraform Plan
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
@@ -42,44 +37,4 @@ jobs:
       - name: Terraform Plan
         run: terraform plan -out=tfplan
 
-      - name: Upload Plan
-        uses: actions/upload-artifact@v4
-        with:
-          name: tfplan-${{ matrix.os }}
-          path: tfplan
-
-  apply:
-    name: Terraform Apply
-    needs: plan
-    runs-on: ubuntu-latest
-
-    environment:
-      name: main
-
-    permissions:
-      id-token: write
-      contents: read
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::901602271390:role/TerraformPractice-GitHubActionsRole
-          aws-region: us-east-1
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-
-      - name: Download Plan
-        uses: actions/download-artifact@v4
-        with:
-          name: tfplan-ubuntu-latest
-
-      - name: Terraform Init
-        run: terraform init
-
-      - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
+      - name
