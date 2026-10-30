@@ -1,9 +1,10 @@
-
 # Step 6: Get Default VPC and Subnets
 
-data "aws_subnet" "default_a" {
-  availability_zone = "us-east-1a"
+data "aws_vpc" "default" {
+  default = true
+}
 
+data "aws_subnets" "default" {
   filter {
     name   = "default-for-az"
     values = ["true"]
@@ -83,7 +84,7 @@ resource "aws_instance" "web" {
   ami           = var.ami_id
   instance_type = var.instance_type
 
-  subnet_id = data.aws_subnet.default_a.id
+  subnet_id = data.aws_subnets.default.ids[0]
 
   vpc_security_group_ids = [
     aws_security_group.web_sg.id
@@ -114,4 +115,3 @@ resource "aws_volume_attachment" "volume_attach" {
   volume_id   = aws_ebs_volume.extra_disk.id
   instance_id = aws_instance.web.id
 }
-
