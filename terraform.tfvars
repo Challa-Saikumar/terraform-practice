@@ -4,7 +4,7 @@ environment = "dev"
 
 instance_name = "practice-server"
 
-instance_type = "t3.small"
+instance_type = "t3.micro"
 
 bucket_name = "sruthy-practice-bucket-001"
 
