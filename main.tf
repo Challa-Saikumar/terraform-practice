@@ -1,6 +1,6 @@
 module "app_stack" {
 
-  source = "./modules/app-stack"
+  source = "./app-stack"
 
   environment   = var.environment
   instance_name = var.instance_name
