@@ -10,7 +10,12 @@ permissions:
 jobs:
   plan:
     name: Terraform Plan
-    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout Code
@@ -40,7 +45,7 @@ jobs:
       - name: Upload Plan
         uses: actions/upload-artifact@v4
         with:
-          name: tfplan
+          name: tfplan-${{ matrix.os }}
           path: tfplan
 
   apply:
@@ -71,7 +76,7 @@ jobs:
       - name: Download Plan
         uses: actions/download-artifact@v4
         with:
-          name: tfplan
+          name: tfplan-ubuntu-latest
 
       - name: Terraform Init
         run: terraform init
