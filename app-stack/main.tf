@@ -11,7 +11,7 @@ data "aws_subnets" "default" {
   }
 }
 
-# Step 7: Create Security Group----------
+# Step 7: Create Security Group------------
 
 resource "aws_security_group" "web_sg" {
   name        = "${var.environment}-web-sg"
